@@ -1,0 +1,5 @@
+openai>=1.40
+python-dotenv
+fastapi
+uvicorn
+pytest
