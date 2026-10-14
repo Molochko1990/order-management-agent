@@ -4,7 +4,7 @@ from pathlib import Path
 from common import MODEL, aclient, cost_usd, stop_reason, usage_dict
 from support_tools import TODAY, TOOLS, run_tool
 
-PROMPT_FILE = Path(__file__).parent / "prompts" / "agent_v1.md"
+PROMPT_FILE = Path(__file__).parent / "prompts" / "agent_v2.md"
 MAX_STEPS = 8
 FALLBACK = "Не получилось решить обращение, передаю его оператору."
 
@@ -23,11 +23,12 @@ def _args(arguments_json: str) -> dict:
         return {"_raw": arguments_json}
 
 
-async def agent_events(history: list[dict], effort: str = "low", max_steps: int = MAX_STEPS, model: str = MODEL):
+async def agent_events(history: list[dict], effort: str = "low", max_steps: int = MAX_STEPS, model: str = MODEL,
+                       system: str | None = None):
     items = list(history)
     for _ in range(max_steps):
         stream = await aclient.responses.create(
-            model=model, instructions=SYSTEM, input=items, tools=TOOLS, store=False, stream=True,
+            model=model, instructions=system or SYSTEM, input=items, tools=TOOLS, store=False, stream=True,
             reasoning={"effort": effort}, max_output_tokens=2000,
         )
         done, final = {}, None

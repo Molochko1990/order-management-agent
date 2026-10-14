@@ -4,6 +4,8 @@ from datetime import date
 from enum import Enum
 from pathlib import Path
 
+from docs_index import search_docs
+
 DATA_FILE = Path(__file__).parent / "data" / "orders.json"
 
 _raw = json.loads(DATA_FILE.read_text(encoding="utf-8"))
@@ -155,6 +157,7 @@ TOOL_IMPL = {
     "cancel_order": cancel_order,
     "change_address": change_address,
     "create_refund": create_refund,
+    "search_docs": search_docs,
 }
 
 
@@ -222,5 +225,12 @@ TOOLS = [
             "amount_rub": {"type": "integer", "description": "Сумма возврата в рублях, не больше оплаченной"},
             "reason": {"type": "string", "description": "Причина возврата со слов клиента одной фразой. Если клиент её не назвал, «не указана»: не придумывайте"},
         },
+    ),
+    _tool(
+        "search_docs",
+        "Ищет в документах магазина: регламент гарантии, правила программы лояльности (бонусы), справочник покупателя "
+        "(руководства к товарам, возврат, доставка). Возвращает 4 фрагмента с источником и страницей. "
+        "Вызывайте на любой вопрос о гарантии, бонусах, товарах и правилах магазина.",
+        {"query": {"type": "string", "description": "Короткий поисковый запрос по сути вопроса, например «гарантийный срок аксессуары»"}},
     ),
 ]

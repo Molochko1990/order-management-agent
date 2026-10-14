@@ -12,10 +12,12 @@ except ImportError:
 
 MODEL = "gpt-5.6-luna"
 STRONG_MODEL = "gpt-5.6-terra"
+EMBED_MODEL = "text-embedding-3-small"
 
 PRICES = {
     MODEL: (0.20, 0.02, 1.20),
     STRONG_MODEL: (2.00, 0.20, 12.00),
+    EMBED_MODEL: (0.02, 0.0, 0.0),
 }
 CACHE_WRITE = 1.25
 
